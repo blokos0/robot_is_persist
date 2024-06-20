@@ -1,0 +1,1 @@
+cogs = ["cogs.owner", "cogs.global", "cogs.render"]
