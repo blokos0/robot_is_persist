@@ -2,6 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 from discord.ext.commands import Bot
+import os
 
 class TestCog(commands.Cog, name = "test"):
     def __init__(self, bot):
@@ -22,6 +23,12 @@ class TestCog(commands.Cog, name = "test"):
         for cog in cogs:
             await self.bot.reload_extension(cog)
         await ctx.send("reloaded all extensions:tada:")
+
+    @commands.command()
+    @commands.is_owner()
+    async def clearconsole(self, ctx):
+        os.system('cls||clear')
+        await ctx.send('console cleared:tada:')
 
 async def setup(bot):
     await bot.add_cog(TestCog(bot))

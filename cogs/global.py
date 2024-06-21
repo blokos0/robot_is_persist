@@ -10,11 +10,14 @@ class GlobalCog(commands.Cog, name = "global"):
         self.bot = bot
 
     @commands.command(aliases = ["r"])
-    async def render(self, ctx, *, objs):
+    async def render(self, ctx, *, objs = None):
         """renders the tiles specified"""
+        if objs == None:
+            await ctx.message.channel.send("input cant have 0 tiles")
+            return
         grid = objs.split()
-        height = objs[:objs.find("\n")].count(" ") + 1 # this is the worst thing i ever wrote in my entire life
-        width = objs.count("\n") + 1
+        width = objs[:objs.find("\n")].count(" ") + 1 # this is the worst thing i ever wrote in my entire life
+        height = objs.count("\n") + 1
         success = Renderer.render(self, list(grid), (width, height))
         if isinstance(success, str):
             await ctx.message.channel.send(f"error: {success}!")
