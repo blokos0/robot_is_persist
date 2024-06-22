@@ -6,6 +6,14 @@ from PIL import Image
 import numpy
 from io import BytesIO
 
+def recolor(sprite, rgb):
+    r, g, b = rgb
+    arr = numpy.asarray(sprite, dtype = "float64")
+    arr[..., 0] *= r / 256
+    arr[..., 1] *= g / 256
+    arr[..., 2] *= b / 256
+    return Image.fromarray(arr.astype("uint8"))
+
 class Renderer:
     def __init__(self, bot):
         self.bot = bot
@@ -28,6 +36,7 @@ class Renderer:
                         except FileNotFoundError:
                             return f"tile {grid[gridind]} not found" # will return the error string if any errors happen, otherwise false
                         alpha = spr.getchannel("A")
+                        spr = recolor(spr, (182, 211, 24)) # DEBUG
                         imgs[frame].paste(spr, (x * 24, y * 24), mask = alpha)
                     gridind += 1
         if upscale > 1:
